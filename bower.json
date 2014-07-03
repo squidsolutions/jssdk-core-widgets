@@ -13,10 +13,12 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "dist"
   ],
   "dependencies": {
-    "squid_api": "../jssdk#dev",
+    "squid_api": "../jssdk#dev"
+  },
+  "devDependencies": {
     "handlebars": "~1.3.0"
   }
 }

@@ -4,12 +4,13 @@ module.exports = function(grunt) {
                 jshint : {
                     all : [ 'src/*.js' ]
                 },
+                clean : {
+                    all : "dist/"
+                },
                 bower_concat : {
                     all : {
-                        dest : 'dist/_bower.js',
-                        exclude : [ 'squid_api', "jquery",
-                                    "underscore",
-                                    "backbone"],
+                        dest : 'build/_bower.js',
+                        exclude : [ 'squid_api'],
                         bowerOptions : {
                             relative : false
                         }
@@ -20,8 +21,8 @@ module.exports = function(grunt) {
                         stripBanners : true,
                     },
                     all : {
-                        src : [ 'dist/_bower.js',
-                                'dist/templates.js',
+                        src : [ 'build/_bower.js',
+                                'build/templates.js',
                                 'src/*.js' ],
                         dest : 'dist/squid_api_core-widgets.js',
                     }
@@ -36,7 +37,7 @@ module.exports = function(grunt) {
                     },
                     all : {
                         files : {
-                            "dist/templates.js" : [ "src/*.hbs" ]
+                            "build/templates.js" : [ "src/*.hbs" ]
                         }
                     }
                 },
@@ -52,6 +53,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-handlebars');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-bower-concat');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
-    grunt.registerTask('default', [ 'jshint', 'bower_concat', 'handlebars', 'concat']);
+    grunt.registerTask('default', [ 'jshint', 'clean', 'bower_concat', 'handlebars', 'concat']);
 };

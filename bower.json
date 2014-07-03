@@ -1,0 +1,22 @@
+{
+  "name": "squid_api_core_widgets",
+  "version": "2.0.0",
+  "homepage": "https://github.com/olivier-squid/jssdk-core-widgets",
+  "authors": [
+    "obalbous <oba@squid>"
+  ],
+  "main": "dist/squid_api_core_widgets.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "squid_api": "../jssdk#dev",
+    "handlebars": "~1.3.0"
+  }
+}

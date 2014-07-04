@@ -10,7 +10,9 @@ module.exports = function(grunt) {
                 bower_concat : {
                     all : {
                         dest : 'build/_bower.js',
-                        exclude : [ 'squid_api'],
+                        exclude : [ 'squid_api', "jquery",
+                                    "underscore",
+                                    "backbone"],
                         bowerOptions : {
                             relative : false
                         }
@@ -21,8 +23,7 @@ module.exports = function(grunt) {
                         stripBanners : true,
                     },
                     all : {
-                        src : [ 'build/_bower.js',
-                                'build/templates.js',
+                        src : [ 'build/templates.js',
                                 'src/*.js' ],
                         dest : 'dist/squid_api_core-widgets.js',
                     }
@@ -55,5 +56,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-bower-concat');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
-    grunt.registerTask('default', [ 'jshint', 'clean', 'bower_concat', 'handlebars', 'concat']);
+    grunt.registerTask('default', [ 'jshint', 'clean', 'handlebars', 'concat']);
 };

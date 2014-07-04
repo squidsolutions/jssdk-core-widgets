@@ -17,9 +17,7 @@
     "build"
   ],
   "dependencies": {
-    "squid_api": "../jssdk#dev"
-  },
-  "devDependencies": {
+    "squid_api": "git@github.com:olivier-squid/jssdk.git",
     "handlebars": "~1.3.0"
   }
 }

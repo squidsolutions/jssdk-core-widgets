@@ -14,7 +14,8 @@
     "bower_components",
     "test",
     "src",
-    "build"
+    "build",
+    "Gruntfile.js"
   ],
   "dependencies": {
     "squid_api": "git@github.com:olivier-squid/jssdk.git",

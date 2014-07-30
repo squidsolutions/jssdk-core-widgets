@@ -1,7 +1,7 @@
 jssdk-core-widgets
 ==================
 
-A set of base widgets :
+A set of base widgets using Handlebars.js for templating.
 
 Login widget
 --

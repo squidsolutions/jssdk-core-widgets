@@ -47,17 +47,6 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   var buffer = "", stack1, helper;
-  buffer += "\r\n	<div class='status-error label label-warning'>";
-  if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "</div>\r\n";
-  return buffer;
-  }
-
-function program5(depth0,data) {
-  
-  var buffer = "", stack1, helper;
   buffer += "\r\n	<div class='status-error label label-danger'>";
   if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
@@ -69,10 +58,7 @@ function program5(depth0,data) {
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.running), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.succeeded), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.failed), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.failed), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
   return buffer;
@@ -219,7 +205,6 @@ function program5(depth0,data) {
         template : null,
         format : null,
         runningMessage : "Computing in progress",
-        succeededMessage : "Operation completed",
         failedMessage : "An error has occurred",
 
         initialize: function(options) {
@@ -229,7 +214,6 @@ function program5(depth0,data) {
             
             this.model.on('change:status', this.render, this);
             this.model.on('change:error', this.render, this);
-            this.model.on('change:success', this.render, this);
             
             if (options.template) {
                 this.template = options.template;
@@ -242,9 +226,6 @@ function program5(depth0,data) {
             if (options.failedMessage) {
                 this.failedMessage = options.failedMessage;
             }
-            if (options.succeededMessage) {
-                this.succeededMessage = options.succeededMessage;
-            }
         },
 
         setModel: function(model) {
@@ -254,14 +235,8 @@ function program5(depth0,data) {
 
         render: function() {
             var error = this.model.get("error");
-            var success = this.model.get("success");
             var status = this.model.get("status");
             var running = (status != this.model.STATUS_DONE);
-
-            var succeeded = false;
-            if (success) {
-                succeeded = true;
-            }
             var failed = false;
             if (error) {
                 failed = true;
@@ -269,9 +244,7 @@ function program5(depth0,data) {
 
             if ((!running) && (!failed)) {
                 // hide
-                if (succeeded !== true) {
-                    this.$el.hide(); 
-                }
+                this.$el.hide(); 
             } else {
                 // display
                 var jsonData = this.model.toJSON();
@@ -290,7 +263,7 @@ function program5(depth0,data) {
                     }
                 }
                 
-                var html = this.template({"running" : running, "succeeded" : succeeded, "failed" : failed, "message" : message});
+                var html = this.template({"running" : running, "failed" : failed, "message" : message});
                 this.$el.html(html);
                 this.$el.show();
 

@@ -56,7 +56,7 @@
 
             if ((!running) && (!failed)) {
                 // hide
-                this.$el.hide();
+                this.$el.hide(); 
             } else {
                 // display
                 var jsonData = this.model.toJSON();
@@ -67,9 +67,14 @@
                     if (running) {
                         message = this.runningMessage;
                     } else {
-                        message = this.failedMessage;
+                        if (jsonData.error) {
+                            message = jsonData.error.responseJSON.error;
+                        } else {
+                            message = this.failedMessage;
+                        }
                     }
                 }
+                
                 var html = this.template({"running" : running, "failed" : failed, "message" : message});
                 this.$el.html(html);
                 this.$el.show();

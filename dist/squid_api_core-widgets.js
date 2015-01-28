@@ -36,7 +36,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = "", stack1, helper;
-  buffer += "\r\n    <div class='status-wait label label-warning'>";
+  buffer += "\r\n	<div class='status-error label label-warning'>";
   if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -48,19 +48,20 @@ function program3(depth0,data) {
   
   var buffer = "", stack1, helper;
   buffer += "\r\n	<div class='status-error label label-danger'>";
-  if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  if (helper = helpers.errorMessage) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.errorMessage); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "</div>\r\n";
+    + "<span class=\"badge\">x</span></div>\r\n";
   return buffer;
   }
 
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.running), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  buffer += "<div class='squid-api-core-widgets-status'>\r\n";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.message), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.failed), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.errorMessage), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n";
+  buffer += "\r\n</div>\r\n";
   return buffer;
   });
 /*! Squid Core Widget */
@@ -214,6 +215,7 @@ function program3(depth0,data) {
             
             this.model.on('change:status', this.render, this);
             this.model.on('change:error', this.render, this);
+            this.model.on('change:message', this.render, this);
             
             if (options.template) {
                 this.template = options.template;
@@ -228,6 +230,15 @@ function program3(depth0,data) {
             }
         },
 
+        events: {
+            'click .status-error .badge' : 'removeError'
+        },
+
+        removeError: function(item) {
+            this.model.set({'error' : null}, {'silent' : true});
+            $(item.currentTarget).parent('.status-error').hide();
+        },
+
         setModel: function(model) {
             this.model = model;
             this.initialize();
@@ -236,37 +247,31 @@ function program3(depth0,data) {
         render: function() {
             var error = this.model.get("error");
             var status = this.model.get("status");
+            var message = this.model.get("message");
             var running = (status != this.model.STATUS_DONE);
             var failed = false;
+            var errorMessage;
+
             if (error) {
                 failed = true;
             }
 
-            if ((!running) && (!failed)) {
+            if ((!running) && (!failed) && (!message)) {
                 // hide
                 this.$el.hide(); 
             } else {
-                // display
                 var jsonData = this.model.toJSON();
-                var message;
-                if (jsonData.message) {
-                    message = jsonData.message;
-                } else {
-                    if (running) {
-                        message = this.runningMessage;
-                    } else {
-                        if (jsonData.error) {
-                            message = jsonData.error.responseJSON.error;
-                        } else {
-                            message = this.failedMessage;
-                        }
-                    }
-                }
                 
-                var html = this.template({"running" : running, "failed" : failed, "message" : message});
+                if (running) {
+                    message = this.runningMessage;
+                } else if (jsonData.error) {
+                    message = '';
+                    errorMessage = jsonData.error.responseJSON.error;
+                }
+                    
+                var html = this.template({"running" : running, "failed" : failed, "message" : message, "errorMessage" : errorMessage});
                 this.$el.html(html);
                 this.$el.show();
-
             }
             return this;
         }

@@ -1,6 +1,8 @@
-{{#if running}}
-    <div class='status-wait label label-warning'>{{message}}</div>
+<div class='squid-api-core-widgets-status'>
+{{#if message}}
+	<div class='status-error label label-warning'>{{message}}</div>
 {{/if}}
-{{#if failed}}
-	<div class='status-error label label-danger'>{{message}}</div>
+{{#if errorMessage}}
+	<div class='status-error label label-danger'>{{errorMessage}}<span class="badge">x</span></div>
 {{/if}}
+</div>

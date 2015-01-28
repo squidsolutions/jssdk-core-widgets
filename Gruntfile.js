@@ -22,10 +22,14 @@ module.exports = function(grunt) {
                     options : {
                         stripBanners : true,
                     },
-                    all : {
+                    js : {
                         src : [ 'build/templates.js',
                                 'src/*.js' ],
                         dest : 'dist/squid_api_core-widgets.js',
+                    },
+                    css : {
+                        src : [ 'src/*.css' ],
+                        dest : 'dist/squid_api_core-widgets.css',
                     }
                 },
                 handlebars : {

@@ -82,7 +82,13 @@
             else {
                 url += "?";
             }
-            window.location = url + "redirect_uri=" + redirectUri;
+            url = url + "redirect_uri=" + redirectUri;
+            if (!squid_api.debug) {
+                window.location = url;
+            } else {
+                // bypass redirection
+                console.log("redirection : "+url);
+            }
         },
 
         logout: function(event) {

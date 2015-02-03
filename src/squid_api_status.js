@@ -80,6 +80,10 @@
                 }
                     
                 var html = this.template({"running" : running, "failed" : failed, "message" : message, "errorMessage" : errorMessage});
+
+                // Message to null after being displayed
+                this.model.set({message : null}, {silent : true});
+
                 this.$el.html(html);
                 this.$el.show();
             }

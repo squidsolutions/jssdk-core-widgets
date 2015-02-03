@@ -1,4 +1,11 @@
-.squid-api-core-widgets-status .badge {
-	margin: 0px 5px 0px 5px;
-	cursor: pointer;
+.squid-api-core-widgets-status .status-error {
+   	position: fixed;
+   	opacity: 0.9;
+   	z-index: 1050;
+   	left:50%;
+   	-webkit-transform: translateX(-50%);
+  	-moz-transform:    translateX(-50%);
+  	-ms-transform:     translateX(-50%);
+  	-o-transform:      translateX(-50%);
+   	transform: 		   translateX(-50%);
 }

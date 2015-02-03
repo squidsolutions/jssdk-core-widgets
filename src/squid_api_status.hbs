@@ -1,8 +1,11 @@
 <div class='squid-api-core-widgets-status'>
 {{#if message}}
-	<div class='status-error label label-warning'>{{message}}</div>
+	<div class="status-error alert alert-warning">{{message}}</div>
 {{/if}}
 {{#if errorMessage}}
-	<div class='status-error label label-danger'>{{errorMessage}}<span class="badge">x</span></div>
+	<div class="status-error alert alert-danger alert-dismissible">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{errorMessage}}
+	</div>
 {{/if}}
 </div>

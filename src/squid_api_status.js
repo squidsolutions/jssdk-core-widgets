@@ -42,12 +42,11 @@
         },
 
         events: {
-            'click .status-error .badge' : 'removeError'
+            'click .status-error .close' : 'removeError'
         },
 
         removeError: function(item) {
             this.model.set({'error' : null}, {'silent' : true});
-            $(item.currentTarget).parent('.status-error').hide();
         },
 
         setModel: function(model) {

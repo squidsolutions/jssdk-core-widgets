@@ -36,7 +36,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = "", stack1, helper;
-  buffer += "\r\n	<div class='status-error label label-warning'>";
+  buffer += "\r\n	<div class=\"status-error alert alert-warning\">";
   if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -47,11 +47,11 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   var buffer = "", stack1, helper;
-  buffer += "\r\n	<div class='status-error label label-danger'>";
+  buffer += "\r\n	<div class=\"status-error alert alert-danger alert-dismissible\">\r\n		<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n		";
   if (helper = helpers.errorMessage) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.errorMessage); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "<span class=\"badge\">x</span></div>\r\n";
+    + "\r\n	</div>\r\n";
   return buffer;
   }
 
@@ -237,12 +237,11 @@ function program3(depth0,data) {
         },
 
         events: {
-            'click .status-error .badge' : 'removeError'
+            'click .status-error .close' : 'removeError'
         },
 
         removeError: function(item) {
             this.model.set({'error' : null}, {'silent' : true});
-            $(item.currentTarget).parent('.status-error').hide();
         },
 
         setModel: function(model) {

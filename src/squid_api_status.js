@@ -23,10 +23,10 @@
             if (!this.model) {
                 this.model = squid_api.model.status;
             }
-            
-            this.model.on('change:status', this.render, this);
+            var me = this;
+            this.model.on('change:status', this.renderDelayed, this);
             this.model.on('change:error', this.render, this);
-            this.model.on('change:message', this.render, this);
+            this.model.on('change:message', this.renderDelayed, this);
             
             if (options.template) {
                 this.template = options.template;
@@ -52,6 +52,14 @@
         setModel: function(model) {
             this.model = model;
             this.initialize();
+        },
+        
+        renderDelayed: function() {
+            // just slightly delay rendering (to avoid flickering when action is very short)
+            var me = this;
+            setTimeout(function() {
+                me.render();
+            }, 200);
         },
 
         render: function() {

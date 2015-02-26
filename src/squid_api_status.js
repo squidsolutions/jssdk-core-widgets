@@ -84,7 +84,11 @@
                     message = this.runningMessage;
                 } else if (jsonData.error) {
                     message = '';
-                    errorMessage = jsonData.error.responseJSON.error;
+                    if (jsonData.error.responseJSON) {
+                        errorMessage = jsonData.error.responseJSON.error;
+                    } else {
+                        errorMessage = jsonData.error.statusText;
+                    }
                 }
                     
                 var html = this.template({"running" : running, "failed" : failed, "message" : message, "errorMessage" : errorMessage});

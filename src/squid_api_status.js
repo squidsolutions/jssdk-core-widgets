@@ -59,7 +59,7 @@
             var me = this;
             setTimeout(function() {
                 me.render();
-            }, 200);
+            }, 300);
         },
 
         render: function() {

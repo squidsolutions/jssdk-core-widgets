@@ -254,7 +254,7 @@ function program3(depth0,data) {
             var me = this;
             setTimeout(function() {
                 me.render();
-            }, 200);
+            }, 300);
         },
 
         render: function() {
@@ -281,8 +281,12 @@ function program3(depth0,data) {
                     message = '';
                     if (jsonData.error.responseJSON) {
                         errorMessage = jsonData.error.responseJSON.error;
-                    } else {
+                    } else if (jsonData.error.reason) {
+                        errorMessage = jsonData.error.reason;
+                    } else if (jsonData.error.statusText) {
                         errorMessage = jsonData.error.statusText;
+                    } else {
+                        errorMessage = "An error has occurred";
                     }
                 }
                     

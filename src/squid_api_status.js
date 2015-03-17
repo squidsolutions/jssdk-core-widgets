@@ -86,8 +86,12 @@
                     message = '';
                     if (jsonData.error.responseJSON) {
                         errorMessage = jsonData.error.responseJSON.error;
-                    } else {
+                    } else if (jsonData.error.reason) {
+                        errorMessage = jsonData.error.reason;
+                    } else if (jsonData.error.statusText) {
                         errorMessage = jsonData.error.statusText;
+                    } else {
+                        errorMessage = "An error has occurred";
                     }
                 }
                     

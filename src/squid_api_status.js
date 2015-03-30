@@ -66,10 +66,9 @@
             var error = this.model.get("error");
             var status = this.model.get("status");
             var message = this.model.get("message");
-            var running = (status != this.model.STATUS_DONE);
+            var running = ((status === this.model.STATUS_RUNNING) || (status === this.model.STATUS_PENDING));
             var failed = false;
-            var errorMessage;
-
+            
             if (error) {
                 failed = true;
             }
@@ -85,17 +84,17 @@
                 } else if (jsonData.error) {
                     message = '';
                     if (jsonData.error.responseJSON) {
-                        errorMessage = jsonData.error.responseJSON.error;
+                        message = jsonData.error.responseJSON.error;
                     } else if (jsonData.error.reason) {
-                        errorMessage = jsonData.error.reason;
+                        message = jsonData.error.reason;
                     } else if (jsonData.error.statusText) {
-                        errorMessage = jsonData.error.statusText;
+                        message = jsonData.error.statusText;
                     } else {
-                        errorMessage = "An error has occurred";
+                        message = "An error has occurred";
                     }
                 }
                     
-                var html = this.template({"running" : running, "failed" : failed, "message" : message, "errorMessage" : errorMessage});
+                var html = this.template({"running" : running, "failed" : failed, "message" : message});
 
                 // Message to null after being displayed
                 this.model.set({message : null}, {silent : true});

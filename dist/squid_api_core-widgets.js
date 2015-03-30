@@ -47,19 +47,30 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   var buffer = "", stack1, helper;
+  buffer += "\r\n	<div class=\"status-error alert alert-info alert-dismissible\">\r\n		<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n		";
+  if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\r\n	</div>\r\n";
+  return buffer;
+  }
+
+function program5(depth0,data) {
+  
+  var buffer = "", stack1, helper;
   buffer += "\r\n	<div class=\"status-error alert alert-danger alert-dismissible\">\r\n		<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n		";
-  if (helper = helpers.errorMessage) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.errorMessage); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
     + "\r\n	</div>\r\n";
   return buffer;
   }
 
   buffer += "<div class='squid-api-core-widgets-status'>\r\n";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.message), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.running), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.errorMessage), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.failed), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n</div>\r\n";
   return buffer;
@@ -261,10 +272,9 @@ function program3(depth0,data) {
             var error = this.model.get("error");
             var status = this.model.get("status");
             var message = this.model.get("message");
-            var running = (status != this.model.STATUS_DONE);
+            var running = ((status === this.model.STATUS_RUNNING) || (status === this.model.STATUS_PENDING));
             var failed = false;
-            var errorMessage;
-
+            
             if (error) {
                 failed = true;
             }
@@ -280,17 +290,17 @@ function program3(depth0,data) {
                 } else if (jsonData.error) {
                     message = '';
                     if (jsonData.error.responseJSON) {
-                        errorMessage = jsonData.error.responseJSON.error;
+                        message = jsonData.error.responseJSON.error;
                     } else if (jsonData.error.reason) {
-                        errorMessage = jsonData.error.reason;
+                        message = jsonData.error.reason;
                     } else if (jsonData.error.statusText) {
-                        errorMessage = jsonData.error.statusText;
+                        message = jsonData.error.statusText;
                     } else {
-                        errorMessage = "An error has occurred";
+                        message = "An error has occurred";
                     }
                 }
                     
-                var html = this.template({"running" : running, "failed" : failed, "message" : message, "errorMessage" : errorMessage});
+                var html = this.template({"running" : running, "failed" : failed, "message" : message});
 
                 // Message to null after being displayed
                 this.model.set({message : null}, {silent : true});

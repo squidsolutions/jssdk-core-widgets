@@ -28,6 +28,69 @@ function program3(depth0,data) {
   else { return ''; }
   });
 
+this["squid_api"]["template"]["squid_api_selector"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\r\n    <select class=\"sq-select form-control\" ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.multiple), {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += ">\r\n        ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.options), {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\r\n    </select>\r\n";
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  
+  return "multiple";
+  }
+
+function program4(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\r\n            <option value=\"";
+  if (helper = helpers.value) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.value); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.selected), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += ">\r\n                ";
+  if (helper = helpers.label) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.label); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\r\n            </option>\r\n        ";
+  return buffer;
+  }
+function program5(depth0,data) {
+  
+  
+  return "selected";
+  }
+
+function program7(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\r\n    <!-- just name -->\r\n    <label>";
+  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</label>\r\n    <span>-</span>\r\n";
+  return buffer;
+  }
+
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.selAvailable), {hash:{},inverse:self.program(7, program7, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\r\n";
+  return buffer;
+  });
+
 this["squid_api"]["template"]["squid_api_status"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -202,6 +265,69 @@ function program5(depth0,data) {
     });
 
     return LoginView;
+}));
+
+(function (root, factory) {
+    root.squid_api.view.Selector = factory(root.Backbone, root.squid_api, squid_api.template.squid_api_selector);
+
+}(this, function (Backbone, squid_api, template) {
+
+    var View = Backbone.View.extend({
+        template : null,
+        onChange : null,
+
+        initialize: function(options) {
+            var me = this;
+
+            // setup options
+            if (options.template) {
+                this.template = options.template;
+            } else {
+                this.template = template;
+            }
+            
+            if (options.onChange) {
+                this.onChange = options.onChange;
+            }
+
+            this.model.on("change", this.render, this);
+        },
+
+        events: {
+            "change .sq-select": function(event) {
+                var selectedOid = event.target.value;
+                // update the current selection
+                this.model.set("selected", selectedOid);
+            }
+        },
+
+        render: function() {
+            var items,item, selected, selectedItem, jsonData = {"selAvailable" : true, "options" : []};
+            items = this.model.get("items");
+            selectedItem = this.model.get("selected");
+
+            for (var i=0; i<items.length; i++) {
+                item = items[i];
+                if (item) {
+                    selected = false;
+                    if (item.oid === selectedItem) {
+                        selected = true;
+                    }
+                    var option = {"label" : item.name, "value" : item.oid, "selected" : selected};
+                    jsonData.options.push(option);
+                }
+            }
+
+            var html = this.template(jsonData);
+            this.$el.html(html);
+            this.$el.show();
+
+            return this;
+        }
+
+    });
+
+    return View;
 }));
 
 /*! Squid Core Widget */

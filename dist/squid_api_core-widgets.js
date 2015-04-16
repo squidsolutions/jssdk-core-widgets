@@ -305,8 +305,13 @@ function program5(depth0,data) {
         events: {
             "change .sq-select": function(event) {
                 var selectedOid = event.target.value;
-                // update the current selection
-                squid_api.model.config.set(this.configName,selectedOid);
+                if (this.onChange) {
+                    // call the onChange function
+                    this.onChange(event);
+                } else {
+                    // update the current selection
+                    squid_api.model.config.set(this.configName,selectedOid);
+                }
             }
         },
 

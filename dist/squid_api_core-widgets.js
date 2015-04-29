@@ -438,7 +438,10 @@ function program6(depth0,data) {
                     message = this.runningMessage;
                 } else if (jsonData.error) {
                     message = '';
-                    if (jsonData.error.responseJSON) {
+                    
+                    if (jsonData.error.message) {
+                        message = jsonData.error.message;
+                    } else if (jsonData.error.responseJSON) {
                         message = jsonData.error.responseJSON.error;
                     } else if (jsonData.error.reason) {
                         message = jsonData.error.reason;

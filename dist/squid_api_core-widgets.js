@@ -109,6 +109,26 @@ function program1(depth0,data) {
 
 function program3(depth0,data) {
   
+  var buffer = "", stack1;
+  buffer += "\r\n";
+  stack1 = helpers.unless.call(depth0, (depth0 && depth0.failed), {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\r\n";
+  return buffer;
+  }
+function program4(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\r\n<div class=\"status-error alert alert-info alert-dismissible\">\r\n	<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n	";
+  if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\r\n</div>\r\n";
+  return buffer;
+  }
+
+function program6(depth0,data) {
+  
   var buffer = "", stack1, helper;
   buffer += "\r\n	<div class=\"status-error alert alert-danger alert-dismissible\">\r\n		<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n		";
   if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
@@ -119,10 +139,10 @@ function program3(depth0,data) {
   }
 
   buffer += "<div class='squid-api-core-widgets-status'>\r\n";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.running), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.running), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.failed), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.failed), {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n</div>\r\n";
   return buffer;

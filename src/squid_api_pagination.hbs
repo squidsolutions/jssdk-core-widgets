@@ -1,0 +1,13 @@
+<div class="pagination">
+	<ul>
+		{{#if prev}}
+		<li class="previous" data-id="{{prev.id}}"><a href="#"><i class="fa fa-arrow-left"></i></a></li>
+		{{/if}}
+		{{#each pages}}
+		<li data-id="{{id}}"{{#if selected}} class="active" {{/if}}><a href="#">{{id}}</a></li>
+		{{/each}}
+		{{#if next}}
+		<li class="next"  data-id="{{next.id}}"><a  href="#"><i class="fa fa-arrow-right"></i></a></li>
+		{{/if}}
+	</ul>
+</div>

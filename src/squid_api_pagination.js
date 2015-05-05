@@ -33,27 +33,25 @@
                 var totalSize = results.totalSize;
                 var currentPageId = Math.floor(startIndex/pageSize);
                 var totalPages = Math.ceil(totalSize/pageSize);
-                var firstPageToDisplay = Math.ceil(currentPageId / this.pagesRangeSize);
+                var firstPageToDisplay = Math.floor(currentPageId / this.pagesRangeSize);
                     
                 var pages = [];
                 // prev
                 var prev;
-                if (firstPageToDisplay>0) {
-                    prev = { "id" : firstPageToDisplay-1};
+                if (currentPageId>0) {
+                    prev = { "id" : currentPageId-1};
                 }
                 // pages
-                var pageId = 0;
+                var pageId = firstPageToDisplay;
                 for (var i=0; ((i<this.pagesRangeSize) && (i<totalPages)); i++) {
                     pageId = firstPageToDisplay+i;
-                    if (pageId == currentPageId) {
-                        selected = true;
-                    }
-                    pages.push({ "id" : pageId, "selected" :  selected});
+                    selected = (pageId == currentPageId);
+                    pages.push({ "id" : pageId, "label" : (pageId+1), "selected" :  selected});
                 }
                 // next
                 var next;
-                if (pageId<totalPages) {
-                    next = { "id" : pageId+1};
+                if (currentPageId<totalPages-1) {
+                    next = { "id" : currentPageId+1};
                 }
                 
                 var html = squid_api.template.squid_api_pagination({

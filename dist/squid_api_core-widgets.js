@@ -35,14 +35,17 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
-  var buffer = "", stack1;
-  buffer += "\n		<li class=\"previous\" data-id=\""
-    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.prev)),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\"><a href=\"#\"><i class=\"fa fa-arrow-left\"></i></a></li>\n		";
-  return buffer;
+  
+  return "<i class=\"fa fa-arrow-left\"></i>";
   }
 
 function program3(depth0,data) {
+  
+  
+  return "&nbsp;";
+  }
+
+function program5(depth0,data) {
   
   var buffer = "", stack1, helper;
   buffer += "\n		<li data-id=\"";
@@ -50,40 +53,41 @@ function program3(depth0,data) {
   else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
     + "\"";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.selected), {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.selected), {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "><a href=\"#\">";
-  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  if (helper = helpers.label) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.label); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
     + "</a></li>\n		";
   return buffer;
   }
-function program4(depth0,data) {
+function program6(depth0,data) {
   
   
   return " class=\"active\" ";
   }
 
-function program6(depth0,data) {
+function program8(depth0,data) {
   
-  var buffer = "", stack1;
-  buffer += "\n		<li class=\"next\"  data-id=\""
-    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.next)),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\"><a  href=\"#\"><i class=\"fa fa-arrow-right\"></i></a></li>\n		";
-  return buffer;
+  
+  return "<i class=\"fa fa-arrow-right\"></i>";
   }
 
-  buffer += "<div class=\"pagination\">\n	<ul>\n		";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.prev), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  buffer += "<div class=\"pagination\">\n	<ul>\n		\n		<li class=\"previous\" data-id=\""
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.prev)),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\"><a href=\"#\">";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.prev), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n		";
-  stack1 = helpers.each.call(depth0, (depth0 && depth0.pages), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  buffer += "</a></li>\n		\n		";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.pages), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n		";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.next), {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
+  buffer += "\n		\n		<li class=\"next\"  data-id=\""
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.next)),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\"><a  href=\"#\">";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.next), {hash:{},inverse:self.program(3, program3, data),fn:self.program(8, program8, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	</ul>\n</div>";
+  buffer += "</a></li>\n		\n	</ul>\n</div>";
   return buffer;
   });
 
@@ -361,27 +365,25 @@ function program5(depth0,data) {
                 var totalSize = results.totalSize;
                 var currentPageId = Math.floor(startIndex/pageSize);
                 var totalPages = Math.ceil(totalSize/pageSize);
-                var firstPageToDisplay = Math.ceil(currentPageId / this.pagesRangeSize);
+                var firstPageToDisplay = Math.floor(currentPageId / this.pagesRangeSize);
                     
                 var pages = [];
                 // prev
                 var prev;
-                if (firstPageToDisplay>0) {
-                    prev = { "id" : firstPageToDisplay-1};
+                if (currentPageId>0) {
+                    prev = { "id" : currentPageId-1};
                 }
                 // pages
-                var pageId = 0;
+                var pageId = firstPageToDisplay;
                 for (var i=0; ((i<this.pagesRangeSize) && (i<totalPages)); i++) {
                     pageId = firstPageToDisplay+i;
-                    if (pageId == currentPageId) {
-                        selected = true;
-                    }
-                    pages.push({ "id" : pageId, "selected" :  selected});
+                    selected = (pageId == currentPageId);
+                    pages.push({ "id" : pageId, "label" : (pageId+1), "selected" :  selected});
                 }
                 // next
                 var next;
-                if (pageId<totalPages) {
-                    next = { "id" : pageId+1};
+                if (currentPageId<totalPages-1) {
+                    next = { "id" : currentPageId+1};
                 }
                 
                 var html = squid_api.template.squid_api_pagination({

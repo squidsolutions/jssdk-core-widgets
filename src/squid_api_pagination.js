@@ -33,7 +33,10 @@
                 var totalSize = results.totalSize;
                 var currentPageId = Math.floor(startIndex/pageSize);
                 var totalPages = Math.ceil(totalSize/pageSize);
-                var firstPageToDisplay = Math.floor(currentPageId / this.pagesRangeSize);
+                var firstPageToDisplay = currentPageId - this.pagesRangeSize + 1;
+                if (firstPageToDisplay<0) {
+                    firstPageToDisplay = 0;
+                }
                     
                 var pages = [];
                 // prev

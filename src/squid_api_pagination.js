@@ -16,7 +16,7 @@
         },
         
         events : { 
-            "click li" : function(event) {
+            "click li.clickable" : function(event) {
                 event.preventDefault();
                 var pageId = $(event.currentTarget).data("id");
                 var pageSize = this.config.get("maxResults");
@@ -39,27 +39,54 @@
                 }
                     
                 var pages = [];
+                var pageId = firstPageToDisplay;
+                var selected = (pageId == currentPageId);
+
+                var startSpacers = false;
+                var endSpacers = true;
+
                 // prev
                 var prev;
                 if (currentPageId>0) {
                     prev = { "id" : currentPageId-1};
                 }
+
+                // first page
+                var firstPage = { "id" : 0, "label" : 1, "selected" :  selected};
+
                 // pages
-                var pageId = firstPageToDisplay;
+                var pageAfterStart = 0;
                 for (var i=0; ((i<this.pagesRangeSize) && (i<totalPages)); i++) {
                     pageId = firstPageToDisplay+i;
                     selected = (pageId == currentPageId);
-                    pages.push({ "id" : pageId, "label" : (pageId+1), "selected" :  selected});
+                    if ((pageId !== totalPages-1) && (pageId !== 0)) {
+                        if (pageId !== pageAfterStart + 1) {
+                            startSpacers = true;
+                        } else if (pageId === totalPages - 2) {
+                            endSpacers = false;
+                        }
+                        pages.push({ "id" : pageId, "label" : (pageId+1), "selected" :  selected});
+                        pageAfterStart = pageId;
+                    }
                 }
+
+                // last page
+                selected = (totalPages-1 == currentPageId);
+                var lastPage = { "id" : totalPages-1, "label" : totalPages, "selected" :  selected};
+
                 // next
                 var next;
                 if (currentPageId<totalPages-1) {
                     next = { "id" : currentPageId+1};
                 }
-                
+
                 var html = squid_api.template.squid_api_pagination({
                     "prev" : prev,
+                    "firstPage" : firstPage,
+                    "startSpacers" : startSpacers,
                     "pages" : pages,
+                    "endSpacers" : endSpacers,
+                    "lastPage" : lastPage,
                     "next" : next
                 });
                     

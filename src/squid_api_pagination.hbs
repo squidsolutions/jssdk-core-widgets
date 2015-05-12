@@ -1,13 +1,25 @@
 <div class="pagination">
 	<ul>
 		
-		<li class="previous" data-id="{{prev.id}}"><a href="#">{{#if prev}}<i class="fa fa-arrow-left"></i>{{else}}&nbsp;{{/if}}</a></li>
-		
+		<li class="clickable previous" data-id="{{prev.id}}"><a href="#">{{#if prev}}<i class="fa fa-arrow-left"></i>{{else}}&nbsp;{{/if}}</a></li>
+
+		<li class="clickable {{#if firstPage.selected}} active {{/if}}" data-id="{{firstPage.id}}"><a href="#">{{firstPage.label}}</a></li>
+
+		{{#if startSpacers}}
+		<li><a style="pointer-events: none; cursor: default;">...</a></li>
+		{{/if}}
+
 		{{#each pages}}
-		<li data-id="{{id}}"{{#if selected}} class="active" {{/if}}><a href="#">{{label}}</a></li>
+		<li class="clickable {{#if selected}} active {{/if}}" data-id="{{id}}"><a href="#">{{label}}</a></li>
 		{{/each}}
-		
-		<li class="next"  data-id="{{next.id}}"><a  href="#">{{#if next}}<i class="fa fa-arrow-right"></i>{{else}}&nbsp;{{/if}}</a></li>
+
+		{{#if endSpacers}}
+		<li><a style="pointer-events: none; cursor: default;">...</a></li>
+		{{/if}}
+
+		<li class="clickable {{#if lastPage.selected}} active {{/if}}" data-id="{{lastPage.id}}"><a href="#">{{lastPage.label}}</a></li>
+
+		<li class="clickable" class="next" data-id="{{next.id}}"><a  href="#">{{#if next}}<i class="fa fa-arrow-right"></i>{{else}}&nbsp;{{/if}}</a></li>
 		
 	</ul>
 </div>

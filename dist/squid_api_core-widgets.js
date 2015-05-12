@@ -31,7 +31,7 @@ function program3(depth0,data) {
 this["squid_api"]["template"]["squid_api_pagination"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+  var buffer = "", stack1, self=this, functionType="function", escapeExpression=this.escapeExpression;
 
 function program1(depth0,data) {
   
@@ -47,45 +47,72 @@ function program3(depth0,data) {
 
 function program5(depth0,data) {
   
+  
+  return " active ";
+  }
+
+function program7(depth0,data) {
+  
+  
+  return "\n		<li><a style=\"pointer-events: none; cursor: default;\">...</a></li>\n		";
+  }
+
+function program9(depth0,data) {
+  
   var buffer = "", stack1, helper;
-  buffer += "\n		<li data-id=\"";
+  buffer += "\n		<li class=\"clickable ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.selected), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\" data-id=\"";
   if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "\"";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.selected), {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "><a href=\"#\">";
+    + "\"><a href=\"#\">";
   if (helper = helpers.label) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.label); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
     + "</a></li>\n		";
   return buffer;
   }
-function program6(depth0,data) {
-  
-  
-  return " class=\"active\" ";
-  }
 
-function program8(depth0,data) {
+function program11(depth0,data) {
   
   
   return "<i class=\"fa fa-arrow-right\"></i>";
   }
 
-  buffer += "<div class=\"pagination\">\n	<ul>\n		\n		<li class=\"previous\" data-id=\""
+  buffer += "<div class=\"pagination\">\n	<ul>\n		\n		<li class=\"clickable previous\" data-id=\""
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.prev)),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "\"><a href=\"#\">";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.prev), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</a></li>\n		\n		";
-  stack1 = helpers.each.call(depth0, (depth0 && depth0.pages), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  buffer += "</a></li>\n\n		<li class=\"clickable ";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.firstPage)),stack1 == null || stack1 === false ? stack1 : stack1.selected), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n		\n		<li class=\"next\"  data-id=\""
+  buffer += "\" data-id=\""
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.firstPage)),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\"><a href=\"#\">"
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.firstPage)),stack1 == null || stack1 === false ? stack1 : stack1.label)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</a></li>\n\n		";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.startSpacers), {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n\n		";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.pages), {hash:{},inverse:self.noop,fn:self.program(9, program9, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n\n		";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.endSpacers), {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n\n		<li class=\"clickable ";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.lastPage)),stack1 == null || stack1 === false ? stack1 : stack1.selected), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\" data-id=\""
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.lastPage)),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\"><a href=\"#\">"
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.lastPage)),stack1 == null || stack1 === false ? stack1 : stack1.label)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</a></li>\n\n		<li class=\"clickable\" class=\"next\" data-id=\""
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.next)),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "\"><a  href=\"#\">";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.next), {hash:{},inverse:self.program(3, program3, data),fn:self.program(8, program8, data),data:data});
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.next), {hash:{},inverse:self.program(3, program3, data),fn:self.program(11, program11, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</a></li>\n		\n	</ul>\n</div>";
   return buffer;
@@ -357,7 +384,7 @@ function program6(depth0,data) {
         },
         
         events : { 
-            "click li" : function(event) {
+            "click li.clickable" : function(event) {
                 event.preventDefault();
                 var pageId = $(event.currentTarget).data("id");
                 var pageSize = this.config.get("maxResults");
@@ -380,27 +407,54 @@ function program6(depth0,data) {
                 }
                     
                 var pages = [];
+                var pageId = firstPageToDisplay;
+                var selected = (pageId == currentPageId);
+
+                var startSpacers = false;
+                var endSpacers = true;
+
                 // prev
                 var prev;
                 if (currentPageId>0) {
                     prev = { "id" : currentPageId-1};
                 }
+
+                // first page
+                var firstPage = { "id" : 0, "label" : 1, "selected" :  selected};
+
                 // pages
-                var pageId = firstPageToDisplay;
+                var pageAfterStart = 0;
                 for (var i=0; ((i<this.pagesRangeSize) && (i<totalPages)); i++) {
                     pageId = firstPageToDisplay+i;
                     selected = (pageId == currentPageId);
-                    pages.push({ "id" : pageId, "label" : (pageId+1), "selected" :  selected});
+                    if ((pageId !== totalPages-1) && (pageId !== 0)) {
+                        if (pageId !== pageAfterStart + 1) {
+                            startSpacers = true;
+                        } else if (pageId === totalPages - 2) {
+                            endSpacers = false;
+                        }
+                        pages.push({ "id" : pageId, "label" : (pageId+1), "selected" :  selected});
+                        pageAfterStart = pageId;
+                    }
                 }
+
+                // last page
+                selected = (totalPages-1 == currentPageId);
+                var lastPage = { "id" : totalPages-1, "label" : totalPages, "selected" :  selected};
+
                 // next
                 var next;
                 if (currentPageId<totalPages-1) {
                     next = { "id" : currentPageId+1};
                 }
-                
+
                 var html = squid_api.template.squid_api_pagination({
                     "prev" : prev,
+                    "firstPage" : firstPage,
+                    "startSpacers" : startSpacers,
                     "pages" : pages,
+                    "endSpacers" : endSpacers,
+                    "lastPage" : lastPage,
                     "next" : next
                 });
                     

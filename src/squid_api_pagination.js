@@ -56,10 +56,10 @@
 
                 // pages
                 var pageAfterStart = 0;
-                for (var i=0; ((i<this.pagesRangeSize) && (i<totalPages)); i++) {
+                for (var i=1; ((i<this.pagesRangeSize) && (i<totalPages)); i++) {
                     pageId = firstPageToDisplay+i;
                     selected = (pageId == currentPageId);
-                    if ((pageId !== totalPages-1) && (pageId !== 0)) {
+                    if (pageId !== totalPages-1) {
                         if (pageId !== pageAfterStart + 1) {
                             startSpacers = true;
                         } else if (pageId === totalPages - 2) {

@@ -237,6 +237,28 @@ function program6(depth0,data) {
   buffer += "\r\n</div>\r\n";
   return buffer;
   });
+
+this["squid_api"]["template"]["squid_api_switch"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, self=this, functionType="function", escapeExpression=this.escapeExpression;
+
+function program1(depth0,data) {
+  
+  
+  return " checked ";
+  }
+
+  buffer += "<div class=\"checkbox\">\n	<label>\n		<input type=\"checkbox\" ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.checked), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "> ";
+  if (helper = helpers.label) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.label); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\n	</label>\n</div>";
+  return buffer;
+  });
 /*! Squid Core Widget */
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -651,6 +673,76 @@ function program6(depth0,data) {
                 this.$el.html(html);
                 this.$el.show();
             }
+            return this;
+        }
+
+    });
+
+    return View;
+}));
+
+(function(root, factory) {
+    root.squid_api.view.Switch = factory(root.Backbone,
+            squid_api.template.squid_api_switch);
+}(this, function(Backbone, template) {
+
+    var View = Backbone.View.extend({
+
+        template : template,
+        modelAttribute : null,
+        label : null,
+
+        initialize : function(options) {
+            
+            if (options.template) {
+                this.template = options.template;
+            }
+
+            this.modelAttribute = options.modelAttribute;
+            this.label = options.label;
+
+            if (!this.model) {
+                this.model = squid_api.model.config;
+            }
+            this.listenTo(this.model, "change:" + this.modelAttribute,
+                    this.render);
+            
+            this.render();
+        },
+
+        events : ({
+            "change input[type=checkbox]" : function(item) {
+                if (item.currentTarget.checked) {
+                    this.model.set(this.modelAttribute, true);
+                } else {
+                    this.model.set(this.modelAttribute, false);
+                }
+            }
+        }),
+
+        setModel : function(model) {
+            this.model = model;
+            this.initialize();
+        },
+
+        setTemplate : function(t) {
+            if (t) {
+                this.template = t;
+            }
+        },
+
+        render : function() {
+            var data = {
+                "checked" : false,
+                "label" : this.label
+            };
+
+            if (this.model) {
+                data.checked = this.model.get(this.modelAttribute);
+            }
+
+            this.$el.html(this.template(data));
+
             return this;
         }
 

@@ -42,9 +42,6 @@
                 var pageId = firstPageToDisplay;
                 var selected = (pageId == currentPageId);
 
-                var startSpacers = false;
-                var endSpacers = true;
-
                 // prev
                 var prev;
                 if (currentPageId>0) {
@@ -53,6 +50,18 @@
 
                 // first page
                 var firstPage = { "id" : 0, "label" : 1, "selected" :  selected};
+
+                // last page
+                selected = (totalPages-1 == currentPageId);
+                var lastPage = { "id" : totalPages-1, "label" : totalPages, "selected" :  selected};
+
+                // Spacers
+                var startSpacers, endSpacers;
+                if (totalPages > 2) {
+                    endSpacers = true;
+                } else if (totalPages !== 2) {
+                    lastPage = null;
+                }
 
                 // pages
                 var pageAfterStart = 0;
@@ -69,10 +78,6 @@
                         pageAfterStart = pageId;
                     }
                 }
-
-                // last page
-                selected = (totalPages-1 == currentPageId);
-                var lastPage = { "id" : totalPages-1, "label" : totalPages, "selected" :  selected};
 
                 // next
                 var next;

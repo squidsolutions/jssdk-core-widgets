@@ -410,9 +410,9 @@ function program1(depth0,data) {
 
         initialize : function(options) {
             this.config = options.config || squid_api.model.config;
-            this.config.on("change:startIndex", this.render, this);
             this.config.on("change:pageLength", this.render, this);
             this.model.on("change:results", this.render, this);
+            this.config.on("change:startIndex", this.render, this);
         },
         
         events : { 
@@ -494,6 +494,11 @@ function program1(depth0,data) {
                     "lastPage" : lastPage,
                     "next" : next
                 });
+
+                // CurrentPage ID Check
+                if (currentPageId > totalPages - 1) {
+                    this.config.set("startIndex", 0);
+                }
                     
                 this.$el.html(html);
             }

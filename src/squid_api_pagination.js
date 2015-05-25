@@ -94,6 +94,11 @@
                     "lastPage" : lastPage,
                     "next" : next
                 });
+
+                // CurrentPage ID Check
+                if (currentPageId > totalPages - 1) {
+                    this.config.set("startIndex", 0);
+                }
                     
                 this.$el.html(html);
             }

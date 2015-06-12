@@ -310,16 +310,18 @@ function program1(depth0,data) {
 
         render: function() {
             if (this.model) {
-                var userLogin = this.model.get("login");
-                if (userLogin && userLogin !== "") {
-                    // logged in
-                } else {
-                    if (this.autoShow) {
-                        this.login();
+                if (!this.model.get("error")) {
+                    var userLogin = this.model.get("login");
+                    if (userLogin && userLogin !== "") {
+                        // logged in
+                    } else {
+                        if (this.autoShow) {
+                            this.login();
+                        }
                     }
+                    var html = this.template(this.model.toJSON());
+                    this.$el.html(html);
                 }
-                var html = this.template(this.model.toJSON());
-                this.$el.html(html);
             }
 
             return this;

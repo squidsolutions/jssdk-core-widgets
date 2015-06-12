@@ -42,9 +42,6 @@
                 var pageId = firstPageToDisplay;
                 var selected = (pageId == currentPageId);
 
-                var startSpacers = false;
-                var endSpacers = true;
-
                 // prev
                 var prev;
                 if (currentPageId>0) {
@@ -53,6 +50,18 @@
 
                 // first page
                 var firstPage = { "id" : 0, "label" : 1, "selected" :  selected};
+
+                // last page
+                selected = (totalPages-1 == currentPageId);
+                var lastPage = { "id" : totalPages-1, "label" : totalPages, "selected" :  selected};
+
+                // Spacers
+                var startSpacers, endSpacers;
+                if (totalPages > 2) {
+                    endSpacers = true;
+                } else if (totalPages !== 2) {
+                    lastPage = null;
+                }
 
                 // pages
                 var pageAfterStart = 0;
@@ -70,10 +79,6 @@
                     }
                 }
 
-                // last page
-                selected = (totalPages-1 == currentPageId);
-                var lastPage = { "id" : totalPages-1, "label" : totalPages, "selected" :  selected};
-
                 // next
                 var next;
                 if (currentPageId<totalPages-1) {
@@ -89,6 +94,11 @@
                     "lastPage" : lastPage,
                     "next" : next
                 });
+
+                // CurrentPage ID Check
+                if (currentPageId > totalPages - 1) {
+                    this.config.set("startIndex", 0);
+                }
                     
                 this.$el.html(html);
             }

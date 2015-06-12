@@ -17,7 +17,9 @@
 		<li><a style="pointer-events: none; cursor: default;">...</a></li>
 		{{/if}}
 
+		{{#if lastPage}}
 		<li class="clickable {{#if lastPage.selected}} active {{/if}}" data-id="{{lastPage.id}}"><a href="#">{{lastPage.label}}</a></li>
+		{{/if}}
 
 		<li class="clickable" class="next" data-id="{{next.id}}"><a  href="#">{{#if next}}<i class="fa fa-arrow-right"></i>{{else}}&nbsp;{{/if}}</a></li>
 		

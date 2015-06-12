@@ -77,6 +77,20 @@ function program9(depth0,data) {
 
 function program11(depth0,data) {
   
+  var buffer = "", stack1;
+  buffer += "\n		<li class=\"clickable ";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.lastPage)),stack1 == null || stack1 === false ? stack1 : stack1.selected), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\" data-id=\""
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.lastPage)),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\"><a href=\"#\">"
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.lastPage)),stack1 == null || stack1 === false ? stack1 : stack1.label)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</a></li>\n		";
+  return buffer;
+  }
+
+function program13(depth0,data) {
+  
   
   return "<i class=\"fa fa-arrow-right\"></i>";
   }
@@ -102,17 +116,13 @@ function program11(depth0,data) {
   buffer += "\n\n		";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.endSpacers), {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n\n		<li class=\"clickable ";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.lastPage)),stack1 == null || stack1 === false ? stack1 : stack1.selected), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  buffer += "\n\n		";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.lastPage), {hash:{},inverse:self.noop,fn:self.program(11, program11, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\" data-id=\""
-    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.lastPage)),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\"><a href=\"#\">"
-    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.lastPage)),stack1 == null || stack1 === false ? stack1 : stack1.label)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</a></li>\n\n		<li class=\"clickable\" class=\"next\" data-id=\""
+  buffer += "\n\n		<li class=\"clickable\" class=\"next\" data-id=\""
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.next)),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "\"><a  href=\"#\">";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.next), {hash:{},inverse:self.program(3, program3, data),fn:self.program(11, program11, data),data:data});
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.next), {hash:{},inverse:self.program(3, program3, data),fn:self.program(13, program13, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</a></li>\n		\n	</ul>\n</div>";
   return buffer;
@@ -402,9 +412,9 @@ function program1(depth0,data) {
 
         initialize : function(options) {
             this.config = options.config || squid_api.model.config;
-            this.config.on("change:startIndex", this.render, this);
             this.config.on("change:pageLength", this.render, this);
             this.model.on("change:results", this.render, this);
+            this.config.on("change:startIndex", this.render, this);
         },
         
         events : { 
@@ -434,9 +444,6 @@ function program1(depth0,data) {
                 var pageId = firstPageToDisplay;
                 var selected = (pageId == currentPageId);
 
-                var startSpacers = false;
-                var endSpacers = true;
-
                 // prev
                 var prev;
                 if (currentPageId>0) {
@@ -445,6 +452,18 @@ function program1(depth0,data) {
 
                 // first page
                 var firstPage = { "id" : 0, "label" : 1, "selected" :  selected};
+
+                // last page
+                selected = (totalPages-1 == currentPageId);
+                var lastPage = { "id" : totalPages-1, "label" : totalPages, "selected" :  selected};
+
+                // Spacers
+                var startSpacers, endSpacers;
+                if (totalPages > 2) {
+                    endSpacers = true;
+                } else if (totalPages !== 2) {
+                    lastPage = null;
+                }
 
                 // pages
                 var pageAfterStart = 0;
@@ -462,10 +481,6 @@ function program1(depth0,data) {
                     }
                 }
 
-                // last page
-                selected = (totalPages-1 == currentPageId);
-                var lastPage = { "id" : totalPages-1, "label" : totalPages, "selected" :  selected};
-
                 // next
                 var next;
                 if (currentPageId<totalPages-1) {
@@ -481,6 +496,11 @@ function program1(depth0,data) {
                     "lastPage" : lastPage,
                     "next" : next
                 });
+
+                // CurrentPage ID Check
+                if (currentPageId > totalPages - 1) {
+                    this.config.set("startIndex", 0);
+                }
                     
                 this.$el.html(html);
             }

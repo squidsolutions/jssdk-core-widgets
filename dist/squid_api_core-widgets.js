@@ -281,11 +281,10 @@ function program1(depth0,data) {
 
     var LoginView = Backbone.View.extend({
 
+        el : "#login",
         redirectUri: null,
-
         autoShow: true,
-
-        template: null,
+        template: squid_api.template.squid_api_login,
 
         initialize: function(options) {
             if (!this.model) {
@@ -293,13 +292,13 @@ function program1(depth0,data) {
             }
             this.model.on("change:login", this.render, this);
 
-            if (typeof options.autoShow !== "undefined") {
-                this.autoShow = options.autoShow;
-            }
-            if (options.template) {
-                this.template = options.template;
-            } else {
-                this.template = squid_api.template.squid_api_login;
+            if (options) {
+                if (options.autoShow === false) {
+                    this.autoShow = false;
+                }
+                if (options.template) {
+                    this.template = options.template;
+                }
             }
         },
 
@@ -412,9 +411,9 @@ function program1(depth0,data) {
 
         initialize : function(options) {
             this.config = options.config || squid_api.model.config;
+            this.config.on("change:startIndex", this.render, this);
             this.config.on("change:pageLength", this.render, this);
             this.model.on("change:results", this.render, this);
-            this.config.on("change:startIndex", this.render, this);
         },
         
         events : { 
@@ -603,8 +602,9 @@ function program1(depth0,data) {
      */
     var View = Backbone.View.extend({
 
+        el : "#status",
         viewInitialized : false,
-        template : null,
+        template : squid_api.template.squid_api_status,
         format : null,
         runningMessage : "Computing in progress",
         failedMessage : "An error has occurred",
@@ -618,16 +618,16 @@ function program1(depth0,data) {
             this.model.on('change:error', this.render, this);
             this.model.on('change:message', this.renderDelayed, this);
             
-            if (options.template) {
-                this.template = options.template;
-            } else {
-                this.template = squid_api.template.squid_api_status;
-            }
-            if (options.runningMessage) {
-                this.runningMessage = options.runningMessage;
-            }
-            if (options.failedMessage) {
-                this.failedMessage = options.failedMessage;
+            if (options) {
+                if (options.template) {
+                    this.template = options.template;
+                }
+                if (options.runningMessage) {
+                    this.runningMessage = options.runningMessage;
+                }
+                if (options.failedMessage) {
+                    this.failedMessage = options.failedMessage;
+                }
             }
         },
 

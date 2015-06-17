@@ -13,8 +13,9 @@
      */
     var View = Backbone.View.extend({
 
+        el : "#status",
         viewInitialized : false,
-        template : null,
+        template : squid_api.template.squid_api_status,
         format : null,
         runningMessage : "Computing in progress",
         failedMessage : "An error has occurred",
@@ -28,16 +29,16 @@
             this.model.on('change:error', this.render, this);
             this.model.on('change:message', this.renderDelayed, this);
             
-            if (options.template) {
-                this.template = options.template;
-            } else {
-                this.template = squid_api.template.squid_api_status;
-            }
-            if (options.runningMessage) {
-                this.runningMessage = options.runningMessage;
-            }
-            if (options.failedMessage) {
-                this.failedMessage = options.failedMessage;
+            if (options) {
+                if (options.template) {
+                    this.template = options.template;
+                }
+                if (options.runningMessage) {
+                    this.runningMessage = options.runningMessage;
+                }
+                if (options.failedMessage) {
+                    this.failedMessage = options.failedMessage;
+                }
             }
         },
 

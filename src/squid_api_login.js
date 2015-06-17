@@ -10,11 +10,10 @@
 
     var LoginView = Backbone.View.extend({
 
+        el : "#login",
         redirectUri: null,
-
         autoShow: true,
-
-        template: null,
+        template: squid_api.template.squid_api_login,
 
         initialize: function(options) {
             if (!this.model) {
@@ -22,13 +21,13 @@
             }
             this.model.on("change:login", this.render, this);
 
-            if (typeof options.autoShow !== "undefined") {
-                this.autoShow = options.autoShow;
-            }
-            if (options.template) {
-                this.template = options.template;
-            } else {
-                this.template = squid_api.template.squid_api_login;
+            if (options) {
+                if (options.autoShow === false) {
+                    this.autoShow = false;
+                }
+                if (options.template) {
+                    this.template = options.template;
+                }
             }
         },
 

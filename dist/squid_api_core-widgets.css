@@ -1,6 +1,8 @@
 .squid-api-core-widgets-status .status-error {
    	position: fixed;
    	opacity: 0.9;
+    overflow-y: scroll;
+    max-height: 100px;
    	z-index: 1050;
    	left:50%;
    	-webkit-transform: translateX(-50%);

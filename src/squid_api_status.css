@@ -1,7 +1,6 @@
 .squid-api-core-widgets-status .status-error {
    	position: fixed;
    	opacity: 0.9;
-    overflow-y: scroll;
     max-height: 100px;
    	z-index: 1050;
    	left:50%;
@@ -27,6 +26,5 @@
     padding: 10px;
     max-width: 50%;
     max-height: 145px;
-    overflow-y: scroll;
     overflow-x: hidden;
 }

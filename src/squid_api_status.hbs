@@ -1,20 +1,8 @@
 <div class='squid-api-core-widgets-status'>
-{{#if running}}
-	<div class="status-error alert alert-warning">
-		{{{message}}}
-	</div>
-{{else}}
-{{#unless failed}}
-<div class="status-error alert alert-info alert-dismissible">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	{{{message}}}
-</div>
-{{/unless}}
-{{/if}}
-{{#if failed}}
-	<div class="status-error alert alert-danger alert-dismissible">
+	<div class="status-error alert alert-{{{level}}} {{#if dismissible}}alert-dismissible{{/if}}">
+		{{#if dismissible}}
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{/if}}
 		{{{message}}}
 	</div>
-{{/if}}
 </div>

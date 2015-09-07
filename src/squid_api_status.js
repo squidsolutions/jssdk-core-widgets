@@ -69,9 +69,11 @@
             var message = this.model.get("message");
             var running = ((status === this.model.STATUS_RUNNING) || (status === this.model.STATUS_PENDING));
             var failed = false;
+            var level = "info", dismissible = true;
             
             if (error) {
                 failed = true;
+                level = "danger";
             }
 
             if ((!running) && (!failed) && (!message)) {
@@ -82,9 +84,10 @@
                 
                 if (running) {
                     message = this.runningMessage;
+                    level = "warning";
+                    dismissible = false;
                 } else if (jsonData.error) {
                     message = '';
-                    
                     if (jsonData.error.message) {
                         message = jsonData.error.message;
                     } else if (jsonData.error.responseJSON) {
@@ -96,9 +99,15 @@
                     } else {
                         message = "An error has occurred";
                     }
+                    if (jsonData.error.dismissible === false) {
+                        dismissible = false;
+                    } else {
+                        dismissible = true;
+                    }
+                    
                 }
                     
-                var html = this.template({"running" : running, "failed" : failed, "message" : message});
+                var html = this.template({"level" : level, "dismissible" : dismissible, "message" : message});
 
                 // Message to null after being displayed
                 this.model.set({message : null}, {silent : true});

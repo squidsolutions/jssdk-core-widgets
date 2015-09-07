@@ -194,57 +194,35 @@ function program7(depth0,data) {
 this["squid_api"]["template"]["squid_api_status"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+  var buffer = "", stack1, helper, functionType="function", self=this;
 
 function program1(depth0,data) {
   
-  var buffer = "", stack1, helper;
-  buffer += "\r\n	<div class=\"status-error alert alert-warning\">";
-  if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "</div>\r\n";
-  return buffer;
+  
+  return "alert-dismissible";
   }
 
 function program3(depth0,data) {
   
-  var buffer = "", stack1;
-  buffer += "\r\n";
-  stack1 = helpers.unless.call(depth0, (depth0 && depth0.failed), {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n";
-  return buffer;
-  }
-function program4(depth0,data) {
   
-  var buffer = "", stack1, helper;
-  buffer += "\r\n<div class=\"status-error alert alert-info alert-dismissible\">\r\n	<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n	";
-  if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "\r\n</div>\r\n";
-  return buffer;
+  return "\r\n		<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n		";
   }
 
-function program6(depth0,data) {
-  
-  var buffer = "", stack1, helper;
-  buffer += "\r\n	<div class=\"status-error alert alert-danger alert-dismissible\">\r\n		<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n		";
+  buffer += "<div class='squid-api-core-widgets-status'>\r\n	<div class=\"status-error alert alert-";
+  if (helper = helpers.level) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.level); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += " ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.dismissible), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\">\r\n		";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.dismissible), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\r\n		";
   if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "\r\n	</div>\r\n";
-  return buffer;
-  }
-
-  buffer += "<div class='squid-api-core-widgets-status'>\r\n";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.running), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.failed), {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n</div>\r\n";
+  buffer += "\r\n	</div>\r\n</div>\r\n";
   return buffer;
   });
 
@@ -658,9 +636,11 @@ function program1(depth0,data) {
             var message = this.model.get("message");
             var running = ((status === this.model.STATUS_RUNNING) || (status === this.model.STATUS_PENDING));
             var failed = false;
+            var level = "info", dismissible = true;
             
             if (error) {
                 failed = true;
+                level = "danger";
             }
 
             if ((!running) && (!failed) && (!message)) {
@@ -671,9 +651,10 @@ function program1(depth0,data) {
                 
                 if (running) {
                     message = this.runningMessage;
+                    level = "warning";
+                    dismissible = false;
                 } else if (jsonData.error) {
                     message = '';
-                    
                     if (jsonData.error.message) {
                         message = jsonData.error.message;
                     } else if (jsonData.error.responseJSON) {
@@ -685,9 +666,15 @@ function program1(depth0,data) {
                     } else {
                         message = "An error has occurred";
                     }
+                    if (jsonData.error.dismissible === false) {
+                        dismissible = false;
+                    } else {
+                        dismissible = true;
+                    }
+                    
                 }
                     
-                var html = this.template({"running" : running, "failed" : failed, "message" : message});
+                var html = this.template({"level" : level, "dismissible" : dismissible, "message" : message});
 
                 // Message to null after being displayed
                 this.model.set({message : null}, {silent : true});

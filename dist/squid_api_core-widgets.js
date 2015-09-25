@@ -595,7 +595,7 @@ function program1(depth0,data) {
             this.model.on('change:status', this.renderDelayed, this);
             this.model.on('change:error', this.render, this);
             this.model.on('change:message', this.renderDelayed, this);
-            
+
             if (options) {
                 if (options.template) {
                     this.template = options.template;
@@ -621,7 +621,7 @@ function program1(depth0,data) {
             this.model = model;
             this.initialize();
         },
-        
+
         renderDelayed: function() {
             // just slightly delay rendering (to avoid flickering when action is very short)
             var me = this;
@@ -637,7 +637,7 @@ function program1(depth0,data) {
             var running = ((status === this.model.STATUS_RUNNING) || (status === this.model.STATUS_PENDING));
             var failed = false;
             var level = "info", dismissible = true;
-            
+
             if (error) {
                 failed = true;
                 level = "danger";
@@ -645,15 +645,15 @@ function program1(depth0,data) {
 
             if ((!running) && (!failed) && (!message)) {
                 // hide
-                this.$el.hide(); 
+                this.$el.hide();
             } else {
                 var jsonData = this.model.toJSON();
-                
+
                 if (running) {
                     message = this.runningMessage;
                     level = "warning";
                     dismissible = false;
-                } else if (jsonData.error) {
+                } else if (jsonData.error.message) {
                     message = '';
                     if (jsonData.message !== null && jsonData.message !=="") {
                         message = jsonData.error.message;
@@ -671,9 +671,8 @@ function program1(depth0,data) {
                     } else {
                         dismissible = true;
                     }
-                    
                 }
-                    
+
                 var html = this.template({"level" : level, "dismissible" : dismissible, "message" : message});
 
                 // Message to null after being displayed

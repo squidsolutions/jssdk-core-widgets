@@ -655,7 +655,7 @@ function program1(depth0,data) {
                     dismissible = false;
                 } else if (jsonData.error) {
                     message = '';
-                    if (jsonData.error.message) {
+                    if (jsonData.message !== null && jsonData.message !=="") {
                         message = jsonData.error.message;
                     } else if (jsonData.error.responseJSON) {
                         message = jsonData.error.responseJSON.error;
@@ -663,7 +663,7 @@ function program1(depth0,data) {
                         message = jsonData.error.reason;
                     } else if (jsonData.error.statusText) {
                         message = jsonData.error.statusText;
-                    } else {
+                    } else{
                         message = "An error has occurred";
                     }
                     if (jsonData.error.dismissible === false) {

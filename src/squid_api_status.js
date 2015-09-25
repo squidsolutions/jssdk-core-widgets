@@ -88,7 +88,7 @@
                     dismissible = false;
                 } else if (jsonData.error) {
                     message = '';
-                    if (jsonData.error.message) {
+                    if (jsonData.message !== null && jsonData.message !=="") {
                         message = jsonData.error.message;
                     } else if (jsonData.error.responseJSON) {
                         message = jsonData.error.responseJSON.error;
@@ -96,7 +96,7 @@
                         message = jsonData.error.reason;
                     } else if (jsonData.error.statusText) {
                         message = jsonData.error.statusText;
-                    } else {
+                    } else{
                         message = "An error has occurred";
                     }
                     if (jsonData.error.dismissible === false) {

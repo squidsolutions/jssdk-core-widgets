@@ -686,8 +686,8 @@ function program1(depth0,data) {
                 // view message for 10 seconds unless it is an error
                 if (! error && ! running) {
                     setTimeout(function() {
-                        me.$el.html("");
-                    }, 5000);
+                        me.$el.empty();
+                    }, 10000);
                 }
             }
             return this;

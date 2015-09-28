@@ -86,7 +86,7 @@
                     message = this.runningMessage;
                     level = "warning";
                     dismissible = false;
-                } else if (jsonData.error.message) {
+                } else if (jsonData.error) {
                     message = '';
                     if (jsonData.message !== null && jsonData.message !=="") {
                         message = jsonData.error.message;

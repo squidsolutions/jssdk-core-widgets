@@ -631,6 +631,8 @@ function program1(depth0,data) {
         },
 
         render: function() {
+            var me = this;
+
             var error = this.model.get("error");
             var status = this.model.get("status");
             var message = this.model.get("message");
@@ -653,7 +655,7 @@ function program1(depth0,data) {
                     message = this.runningMessage;
                     level = "warning";
                     dismissible = false;
-                } else if (jsonData.error.message) {
+                } else if (jsonData.error) {
                     message = '';
                     if (jsonData.message !== null && jsonData.message !=="") {
                         message = jsonData.error.message;
@@ -680,6 +682,13 @@ function program1(depth0,data) {
 
                 this.$el.html(html);
                 this.$el.show();
+
+                // view message for 10 seconds unless it is an error
+                if (! error && ! running) {
+                    setTimeout(function() {
+                        me.$el.html("");
+                    }, 5000);
+                }
             }
             return this;
         }

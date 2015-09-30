@@ -689,7 +689,10 @@ function program1(depth0,data) {
                 // view message for 10 seconds unless it is an error
                 if (! error && ! running) {
                     setTimeout(function() {
-                        me.$el.empty();
+                        var me1 = me;
+                        me.$el.find(".status-error").fadeOut(function() {
+                            me1.$el.empty();
+                        });
                     }, 15000);
                 }
             }

@@ -120,7 +120,7 @@
                 if (! error && ! running) {
                     setTimeout(function() {
                         me.$el.empty();
-                    }, 10000);
+                    }, 15000);
                 }
             }
             return this;

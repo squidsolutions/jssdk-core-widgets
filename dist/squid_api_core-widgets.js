@@ -656,7 +656,6 @@ function program1(depth0,data) {
                     level = "warning";
                     dismissible = false;
                 } else if (jsonData.error) {
-                    message = '';
                     if (jsonData.message !== null && jsonData.message !=="") {
                         message = jsonData.error.message;
                     } else if (jsonData.error.responseJSON && jsonData.error.responseJSON.error) {
@@ -665,8 +664,12 @@ function program1(depth0,data) {
                         message = jsonData.error.reason;
                     } else if (jsonData.error.statusText) {
                         message = jsonData.error.statusText;
+                    } else if (jsonData.error.message) {
+                        message = jsonData.error.message;
                     } else {
-                        message = "An error has occurred";
+                        if (!message) {
+                            message = "An error has occurred";
+                        }
                     }
                     if (jsonData.error.dismissible === false) {
                         dismissible = false;

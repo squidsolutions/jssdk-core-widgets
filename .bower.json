@@ -1,0 +1,36 @@
+{
+  "name": "squid_api_core_widgets",
+  "version": "2.2.0",
+  "homepage": "https://github.com/squidsolutions/jssdk-core-widgets",
+  "authors": [
+    "obalbous <oba@squid>"
+  ],
+  "main": [
+    "dist/squid_api_core-widgets.js",
+    "dist/squid_api_core-widgets.css"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "src",
+    "build",
+    "Gruntfile.js"
+  ],
+  "dependencies": {
+    "squid_api": "https://github.com/squidsolutions/jssdk2.git",
+    "handlebars": "~1.3.0"
+  },
+  "_release": "2.2.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.2.0",
+    "commit": "dac8aa260c80172630f45731a2df8e3675864340"
+  },
+  "_source": "https://github.com/squidsolutions/jssdk-core-widgets.git",
+  "_target": "2.2.0",
+  "_originalSource": "https://github.com/squidsolutions/jssdk-core-widgets.git"
+}

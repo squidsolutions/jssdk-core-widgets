@@ -64,6 +64,8 @@
         },
 
         render: function() {
+            var me = this;
+
             var error = this.model.get("error");
             var status = this.model.get("status");
             var message = this.model.get("message");
@@ -86,18 +88,21 @@
                     message = this.runningMessage;
                     level = "warning";
                     dismissible = false;
-                } else if (jsonData.error.message) {
-                    message = '';
+                } else if (jsonData.error) {
                     if (jsonData.message !== null && jsonData.message !=="") {
                         message = jsonData.error.message;
-                    } else if (jsonData.error.responseJSON) {
+                    } else if (jsonData.error.responseJSON && jsonData.error.responseJSON.error) {
                         message = jsonData.error.responseJSON.error;
                     } else if (jsonData.error.reason) {
                         message = jsonData.error.reason;
                     } else if (jsonData.error.statusText) {
                         message = jsonData.error.statusText;
-                    } else{
-                        message = "An error has occurred";
+                    } else if (jsonData.error.message) {
+                        message = jsonData.error.message;
+                    } else {
+                        if (!message) {
+                            message = "An error has occurred";
+                        }
                     }
                     if (jsonData.error.dismissible === false) {
                         dismissible = false;
@@ -113,6 +118,16 @@
 
                 this.$el.html(html);
                 this.$el.show();
+
+                // view message for 10 seconds unless it is an error
+                if (! error && ! running) {
+                    setTimeout(function() {
+                        var me1 = me;
+                        me.$el.find(".status-error").fadeOut(function() {
+                            me1.$el.empty();
+                        });
+                    }, 15000);
+                }
             }
             return this;
         }

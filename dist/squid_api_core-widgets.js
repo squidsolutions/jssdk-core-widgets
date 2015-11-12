@@ -677,6 +677,12 @@ function program1(depth0,data) {
                         dismissible = true;
                     }
                 }
+                
+                if (message) {
+                	message = message.replace("\n","<br>");
+                } else {
+                	message = "An error has occurred (sorry we can't give you more details)";
+                }
 
                 var html = this.template({"level" : level, "dismissible" : dismissible, "message" : message});
 

@@ -205,24 +205,24 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   
-  return "\r\n		<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n		";
+  return "\r\n	<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n	";
   }
 
-  buffer += "<div class='squid-api-core-widgets-status'>\r\n	<div class=\"status-error alert alert-";
+  buffer += "<div class=\"status-error alert alert-";
   if (helper = helpers.level) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.level); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += " ";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.dismissible), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\">\r\n		";
+  buffer += "\">\r\n	";
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.dismissible), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n		";
+  buffer += "\r\n	";
   if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n	</div>\r\n</div>\r\n";
+  buffer += "\r\n</div>\r\n";
   return buffer;
   });
 
@@ -632,6 +632,11 @@ function program1(depth0,data) {
 
         render: function() {
             var me = this;
+            
+            // init viewport
+            if (this.$el.html() === "") {
+                this.$el.html("<div class='squid-api-core-widgets-status'></div>");
+            }
 
             var error = this.model.get("error");
             var status = this.model.get("status");
@@ -689,7 +694,7 @@ function program1(depth0,data) {
                 // Message to null after being displayed
                 this.model.set({message : null}, {silent : true});
 
-                this.$el.html(html);
+                this.$el.find(".squid-api-core-widgets-status").html(html);
                 this.$el.show();
 
                 // view message for 10 seconds unless it is an error

@@ -90,7 +90,7 @@
                     dismissible = false;
                 } else if (jsonData.error) {
                     if (jsonData.message !== null && jsonData.message !=="") {
-                        message = jsonData.error.message;
+                        message = jsonData.message;
                     } else if (jsonData.error.responseJSON && jsonData.error.responseJSON.error) {
                         message = jsonData.error.responseJSON.error;
                     } else if (jsonData.error.reason) {

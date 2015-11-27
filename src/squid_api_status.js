@@ -65,6 +65,11 @@
 
         render: function() {
             var me = this;
+            
+            // init viewport
+            if (this.$el.html() === "") {
+                this.$el.html("<div class='squid-api-core-widgets-status'></div>");
+            }
 
             var error = this.model.get("error");
             var status = this.model.get("status");
@@ -122,7 +127,7 @@
                 // Message to null after being displayed
                 this.model.set({message : null}, {silent : true});
 
-                this.$el.html(html);
+                this.$el.find(".squid-api-core-widgets-status").html(html);
                 this.$el.show();
 
                 // view message for 10 seconds unless it is an error

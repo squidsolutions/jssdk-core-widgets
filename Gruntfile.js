@@ -22,14 +22,33 @@ module.exports = function(grunt) {
                     options : {
                         stripBanners : true,
                     },
-                    js : {
-                        src : [ 'build/templates.js',
-                                'src/*.js' ],
-                        dest : 'dist/squid_api_core-widgets.js',
-                    },
-                    css : {
-                        src : [ 'src/*.css' ],
-                        dest : 'dist/squid_api_core-widgets.css',
+                        js : {
+                            src : [ 'build/templates.js',
+                                    'src/*.js' ],
+                            dest : 'dist/squid_api_core-widgets.js',
+                        },
+                        css : {
+                            src : [ 'src/*.css' ],
+                            dest : 'dist/squid_api_core-widgets.css',
+                        },
+                    dev : {
+                        files : {
+                             'dist/squid_api_login.js': ['dist/squid_api_login_template.js','src/squid_api_login.js'],
+                             'dist/squid_api_pagination.js': ['dist/squid_api_pagination_template.js','src/squid_api_pagination.js'],
+                             'dist/squid_api_selector.js': ['dist/squid_api_selector_template.js','src/squid_api_selector.js'],
+                             'dist/squid_api_status.js': ['dist/squid_api_status_template.js','src/squid_api_status.js'],
+                             'dist/squid_api_switch.js': ['dist/squid_api_switch_template.js','src/squid_api_switch.js']
+                        }
+                    }
+                },
+                copy: {
+                    devDist: {
+                        files: [{
+                            expand: true,
+                            flatten: true,
+                            src : [ 'src/*.js' ],
+                            dest: 'dist'
+                        }]
                     }
                 },
                 handlebars : {
@@ -43,6 +62,15 @@ module.exports = function(grunt) {
                     all : {
                         files : {
                             "build/templates.js" : [ "src/*.hbs" ]
+                        }
+                    },
+                    dev:{
+                        files : {
+                            'dist/squid_api_login_template.js': ['src/squid_api_login.hbs'],
+                            'dist/squid_api_pagination_template.js': ['src/squid_api_pagination.hbs'],
+                            'dist/squid_api_selector_template.js': ['src/squid_api_selector.hbs'],
+                            'dist/squid_api_status_template.js': ['src/squid_api_status.hbs'],
+                            'dist/squid_api_switch_template.js': ['src/squid_api_switch.hbs']
                         }
                     }
                 },
@@ -59,6 +87,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-bower-concat');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
-    grunt.registerTask('default', [ 'jshint', 'clean', 'handlebars', 'concat']);
+    grunt.registerTask('devDist', [ 'jshint', 'clean', 'handlebars:dev',  'copy:devDist', 'concat:dev' ]);
+
+    grunt.registerTask('default', [ 'jshint', 'clean', 'handlebars:all', 'concat:js', 'concat:css']);
 };

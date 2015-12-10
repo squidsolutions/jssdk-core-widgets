@@ -2,5 +2,18 @@
 	{{#if dismissible}}
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	{{/if}}
-	{{{message}}}
+	{{#if message}}
+		{{{message}}}
+	{{/if}}
+	{{#if errorData}}
+		{{#if errorData.reason}}
+			{{{errorData.reason}}}<br>
+		{{/if}}
+		{{#if errorData.message}}
+			{{{errorData.message}}}<br>
+		{{/if}}
+		{{#if errorData.statusText}}
+			{{{errorData.statusText}}}<br>
+		{{/if}}
+	{{/if}}
 </div>

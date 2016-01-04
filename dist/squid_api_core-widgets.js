@@ -208,6 +208,62 @@ function program3(depth0,data) {
   return "\r\n	<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\r\n	";
   }
 
+function program5(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\r\n		";
+  if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\r\n	";
+  return buffer;
+  }
+
+function program7(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\r\n		";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.errorData)),stack1 == null || stack1 === false ? stack1 : stack1.reason), {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\r\n		";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.errorData)),stack1 == null || stack1 === false ? stack1 : stack1.message), {hash:{},inverse:self.noop,fn:self.program(10, program10, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\r\n		";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.errorData)),stack1 == null || stack1 === false ? stack1 : stack1.statusText), {hash:{},inverse:self.noop,fn:self.program(12, program12, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\r\n	";
+  return buffer;
+  }
+function program8(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\r\n			";
+  stack1 = ((stack1 = ((stack1 = (depth0 && depth0.errorData)),stack1 == null || stack1 === false ? stack1 : stack1.reason)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "<br>\r\n		";
+  return buffer;
+  }
+
+function program10(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\r\n			";
+  stack1 = ((stack1 = ((stack1 = (depth0 && depth0.errorData)),stack1 == null || stack1 === false ? stack1 : stack1.message)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "<br>\r\n		";
+  return buffer;
+  }
+
+function program12(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\r\n			";
+  stack1 = ((stack1 = ((stack1 = (depth0 && depth0.errorData)),stack1 == null || stack1 === false ? stack1 : stack1.statusText)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "<br>\r\n		";
+  return buffer;
+  }
+
   buffer += "<div class=\"status-error alert alert-";
   if (helper = helpers.level) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.level); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
@@ -219,8 +275,10 @@ function program3(depth0,data) {
   stack1 = helpers['if'].call(depth0, (depth0 && depth0.dismissible), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n	";
-  if (helper = helpers.message) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.message); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.message), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\r\n	";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.errorData), {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n</div>\r\n";
   return buffer;
@@ -655,7 +713,7 @@ function program1(depth0,data) {
                 this.$el.hide();
             } else {
                 var jsonData = this.model.toJSON();
-
+                var errorData = null;
                 if (running) {
                     message = this.runningMessage;
                     level = "warning";
@@ -665,16 +723,8 @@ function program1(depth0,data) {
                         message = jsonData.message;
                     } else if (jsonData.error.responseJSON && jsonData.error.responseJSON.error) {
                         message = jsonData.error.responseJSON.error;
-                    } else if (jsonData.error.reason) {
-                        message = jsonData.error.reason;
-                    } else if (jsonData.error.statusText) {
-                        message = jsonData.error.statusText;
-                    } else if (jsonData.error.message) {
-                        message = jsonData.error.message;
                     } else {
-                        if (!message) {
-                            message = "An error has occurred";
-                        }
+                        errorData = jsonData.error;
                     }
                     if (jsonData.error.dismissible === false) {
                         dismissible = false;
@@ -685,11 +735,11 @@ function program1(depth0,data) {
                 
                 if (message) {
                 	message = message.replace("\n","<br>");
-                } else {
+                } else if (!errorData){
                 	message = "An error has occurred (sorry we can't give you more details)";
                 }
 
-                var html = this.template({"level" : level, "dismissible" : dismissible, "message" : message});
+                var html = this.template({"level" : level, "dismissible" : dismissible, "message" : message, "errorData" : errorData});
 
                 // Message to null after being displayed
                 this.model.set({message : null}, {silent : true});

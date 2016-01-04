@@ -88,7 +88,7 @@
                 this.$el.hide();
             } else {
                 var jsonData = this.model.toJSON();
-
+                var errorData = null;
                 if (running) {
                     message = this.runningMessage;
                     level = "warning";
@@ -98,16 +98,8 @@
                         message = jsonData.message;
                     } else if (jsonData.error.responseJSON && jsonData.error.responseJSON.error) {
                         message = jsonData.error.responseJSON.error;
-                    } else if (jsonData.error.reason) {
-                        message = jsonData.error.reason;
-                    } else if (jsonData.error.statusText) {
-                        message = jsonData.error.statusText;
-                    } else if (jsonData.error.message) {
-                        message = jsonData.error.message;
                     } else {
-                        if (!message) {
-                            message = "An error has occurred";
-                        }
+                        errorData = jsonData.error;
                     }
                     if (jsonData.error.dismissible === false) {
                         dismissible = false;
@@ -118,11 +110,11 @@
                 
                 if (message) {
                 	message = message.replace("\n","<br>");
-                } else {
+                } else if (!errorData){
                 	message = "An error has occurred (sorry we can't give you more details)";
                 }
 
-                var html = this.template({"level" : level, "dismissible" : dismissible, "message" : message});
+                var html = this.template({"level" : level, "dismissible" : dismissible, "message" : message, "errorData" : errorData});
 
                 // Message to null after being displayed
                 this.model.set({message : null}, {silent : true});
